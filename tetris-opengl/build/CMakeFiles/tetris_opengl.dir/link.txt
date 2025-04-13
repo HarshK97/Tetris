@@ -1,1 +1,0 @@
-/usr/bin/c++ -Wl,--dependency-file=CMakeFiles/tetris_opengl.dir/link.d CMakeFiles/tetris_opengl.dir/main.cpp.o CMakeFiles/tetris_opengl.dir/src/glad.c.o -o tetris_opengl  /usr/lib/libGL.so /usr/lib/libGLU.so -lglfw
