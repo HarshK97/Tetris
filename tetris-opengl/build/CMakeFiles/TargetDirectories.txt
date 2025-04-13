@@ -1,0 +1,3 @@
+/home/Optimus/Projects/tetris/tetris-opengl/build/CMakeFiles/tetris_opengl.dir
+/home/Optimus/Projects/tetris/tetris-opengl/build/CMakeFiles/edit_cache.dir
+/home/Optimus/Projects/tetris/tetris-opengl/build/CMakeFiles/rebuild_cache.dir
