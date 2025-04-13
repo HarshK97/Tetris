@@ -60,7 +60,7 @@ g++ main.cpp -lglfw -lGL -o tetris_opengl
 
 ---
 
-## What I Learned
+## 🔹 What I Learned
 
 - Writing a game loop from scratch
 - Handling real-time keyboard input
@@ -72,7 +72,7 @@ g++ main.cpp -lglfw -lGL -o tetris_opengl
 
 ---
 
-## Future Improvements
+## 🔹 Future Improvements
 
 - Add a scoring UI overlay (OpenGL version)
 - Implement a pause feature
