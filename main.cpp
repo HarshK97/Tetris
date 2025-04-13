@@ -34,6 +34,7 @@ Block getRandomBlock() {
 
 int HEIGHT = 20;
 int WIDTH = 10;
+int score = 0;
 vector<vector<int>> grid(HEIGHT, vector<int>(WIDTH));
 
 bool canMoveLeft(Block &block) {
@@ -91,13 +92,45 @@ void rotateBlock(Block &block) {
   }
 }
 
+void clearFullLines() {
+  for (int i = HEIGHT - 1; i >= 0; --i) {
+    bool full = true;
+    for (int j = 0; j < WIDTH; ++j) {
+      if (grid[i][j] == 0) {
+        full = false;
+        break;
+      }
+    }
+
+    if (full) {
+      score += 100;
+      for (int row = i; row > 0; --row) {
+        for (int col = 0; col < WIDTH; ++col) {
+          grid[row][col] = grid[row - 1][col];
+        }
+      }
+
+      for (int col = 0; col < WIDTH; ++col) {
+        grid[0][col] = 0;
+      }
+
+      i++;
+    }
+  }
+}
+
 int main() {
   initscr();
+  start_color();
+  use_default_colors();
   noecho();
   cbreak();
   curs_set(0);
   nodelay(stdscr, TRUE);
   keypad(stdscr, TRUE);
+
+  init_pair(1, COLOR_WHITE, -1);
+  init_pair(2, COLOR_CYAN, -1);
 
   Block current = getRandomBlock();
   Block next = getRandomBlock();
@@ -105,7 +138,7 @@ int main() {
   while (true) {
     vector<vector<int>> tempGrid = grid;
 
-    int ch = getch(); // key press
+    int ch = getch();
 
     if (ch == KEY_LEFT) {
       if (canMoveLeft(current))
@@ -169,12 +202,26 @@ int main() {
       }
     }
 
+    clearFullLines();
+
     clear();
+
+    mvprintw(0, WIDTH / 2 - 5, "Score: %d", score);
+
     for (int i = 0; i < HEIGHT; i++) {
       for (int j = 0; j < WIDTH; j++) {
-        mvprintw(i, j * 2, tempGrid[i][j] == 0 ? ". " : "# ");
+        if (tempGrid[i][j] == 0) {
+          attron(COLOR_PAIR(1));
+          mvprintw(i + 1, j * 2, ". ");
+          attroff(COLOR_PAIR(1));
+        } else {
+          attron(COLOR_PAIR(2));
+          mvprintw(i + 1, j * 2, "# ");
+          attroff(COLOR_PAIR(2));
+        }
       }
     }
+
     refresh();
 
     this_thread::sleep_for(chrono::milliseconds(500));
