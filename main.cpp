@@ -1,5 +1,6 @@
 #include <chrono>
 #include <iostream>
+#include <ncurses.h>
 #include <random>
 #include <thread>
 #include <utility>
@@ -35,12 +36,89 @@ int HEIGHT = 20;
 int WIDTH = 10;
 vector<vector<int>> grid(HEIGHT, vector<int>(WIDTH));
 
+bool canMoveLeft(Block &block) {
+  for (auto [dy, dx] : block.shape) {
+    int newY = block.y + dy;
+    int newX = block.x + dx - 1;
+    if (newX < 0 || newY >= HEIGHT || grid[newY][newX] != 0) {
+      return false;
+    }
+  }
+  return true;
+}
+
+bool canMoveRight(Block &block) {
+  for (auto [dy, dx] : block.shape) {
+    int newY = block.y + dy;
+    int newX = block.x + dx + 1;
+    if (newX > WIDTH || newY >= HEIGHT || grid[newY][newX] != 0) {
+      return false;
+    }
+  }
+  return true;
+}
+
+bool canMoveDown(Block &block) {
+  for (auto [dy, dx] : block.shape) {
+    int newY = block.y + dy + 1;
+    int newX = block.x + dx;
+    if (newY >= HEIGHT || grid[newY][newX] != 0) {
+      return false;
+    }
+  }
+  return true;
+}
+
+void rotateBlock(Block &block) {
+  vector<pair<int, int>> rotatedShape;
+
+  for (auto [dy, dx] : block.shape) {
+    rotatedShape.push_back({-dx, dy});
+  }
+
+  bool validRotation = true;
+  for (auto [dy, dx] : block.shape) {
+    int newY = block.y + dy;
+    int newX = block.x + dx;
+    if (newY >= HEIGHT || newX < 0 || newX >= WIDTH || grid[newY][newX] != 0) {
+      validRotation = false;
+      break;
+    }
+  }
+
+  if (validRotation) {
+    block.shape = rotatedShape;
+  }
+}
+
 int main() {
+  initscr();
+  noecho();
+  cbreak();
+  curs_set(0);
+  nodelay(stdscr, TRUE);
+  keypad(stdscr, TRUE);
+
   Block current = getRandomBlock();
   Block next = getRandomBlock();
 
   while (true) {
     vector<vector<int>> tempGrid = grid;
+
+    int ch = getch(); // key press
+
+    if (ch == KEY_LEFT) {
+      if (canMoveLeft(current))
+        current.x--;
+    } else if (ch == KEY_RIGHT) {
+      if (canMoveRight(current))
+        current.x++;
+    } else if (ch == KEY_DOWN) {
+      if (canMoveDown(current))
+        current.y++;
+    } else if (ch == KEY_UP) {
+      rotateBlock(current);
+    }
 
     bool canMove = true;
     for (auto [dy, dx] : current.shape) {
@@ -91,13 +169,13 @@ int main() {
       }
     }
 
-    cout << u8"\033[2J\033[1;1H";
+    clear();
     for (int i = 0; i < HEIGHT; i++) {
       for (int j = 0; j < WIDTH; j++) {
-        cout << (tempGrid[i][j] == 0 ? "." : "#") << " ";
+        mvprintw(i, j * 2, tempGrid[i][j] == 0 ? ". " : "# ");
       }
-      cout << "\n";
     }
+    refresh();
 
     this_thread::sleep_for(chrono::milliseconds(500));
   }
