@@ -1,0 +1,33 @@
+
+# Ignore OpenGL build directory
+tetris-opengl/build/
+
+# Ignore all binary executables
+tetris-opengl/tetris
+tetris-terminal/tetris
+
+# Ignore object files and compiled intermediates
+*.o
+*.out
+*.a
+*.so
+
+# Ignore cmake-generated files
+CMakeFiles/
+CMakeCache.txt
+cmake_install.cmake
+Makefile
+
+# Ignore video demonstrations
+video/
+
+# OS / Editor junk
+.DS_Store
+*.swp
+*.swo
+*.log
+*.tmp
+
+# VSCode / CLion / JetBrains
+.vscode/
+.idea/

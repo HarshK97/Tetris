@@ -7,34 +7,6 @@ A fun and educational implementation of **Tetris** in C++, featuring two version
 
 ---
 
-## 📹 Demo Videos
-
-### ▶️ Terminal Version
-
-https://github.com/HarshK97/tetris/blob/main/video/tetris-terminal.mkv
-
-<details>
-  <summary>Click to view embedded</summary>
-
-<video src="video/tetris-terminal.mkv" controls width="600"></video>
-
-</details>
-
----
-
-### ▶️ OpenGL Version
-
-https://github.com/HarshK97/tetris/blob/main/video/tetris-opengl.mkv
-
-<details>
-  <summary>Click to view embedded</summary>
-
-<video src="video/tetris-opengl.mkv" controls width="600"></video>
-
-</details>
-
----
-
 ## 🧰 Technologies
 
 | Terminal Version  | OpenGL Version           |
@@ -86,6 +58,8 @@ g++ main.cpp -lglfw -lGL -o tetris_opengl
 ./tetris_opengl
 ```
 
+---
+
 ## What I Learned
 
 - Writing a game loop from scratch
@@ -95,6 +69,8 @@ g++ main.cpp -lglfw -lGL -o tetris_opengl
 - Using OpenGL for rendering
 - Drawing shapes and colors
 - Fixing segmentation faults using GDB
+
+---
 
 ## Future Improvements
 
